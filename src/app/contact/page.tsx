@@ -4,7 +4,6 @@ import Image from "next/image";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
-import { Button } from "@/components/ui/Button";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 
 /**

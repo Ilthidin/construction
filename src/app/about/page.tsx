@@ -4,9 +4,7 @@ import Image from "next/image";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { MissionSection } from "@/components/about/MissionSection";
-import { ValuesSection } from "@/components/about/ValuesSection";
-import { TeamCard } from "@/components/about/TeamCard";
-import { teamMembers, companyStats } from "@/data/team";
+import { companyStats } from "@/data/team";
 
 /**
  * About page - Full about section for the Hedgar Construction showcase site.

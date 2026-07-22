@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { User, Calendar } from "lucide-react";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
-import { blogPosts, type BlogPost } from "@/data/blog";
+import { type BlogPost } from "@/data/blog";
 
 /**
  * BlogCard Component

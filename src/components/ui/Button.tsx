@@ -78,6 +78,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       .join(" ");
 
     if (href) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { onClick, ...anchorRest } = rest as AnchorHTMLAttributes<HTMLAnchorElement>;
 
       if (href.startsWith("/")) {
