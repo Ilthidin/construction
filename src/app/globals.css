@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: #111111;
+  --color-primary-light: #1a1a1a;
+  --color-accent: #C8963E;
+  --color-accent-light: #d4a94f;
+  --color-accent-dark: #a67a2e;
+  --color-surface: #F8F6F3;
+  --color-surface-dark: #EDE9E3;
+  --color-muted: #6B7280;
+  --color-border: #E5E7EB;
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-heading: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: #1a1a1a;
+    background: #ffffff;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: white;
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24;
+  }
+
+  .section-padding-wide {
+    @apply px-4 sm:px-6 lg:px-12 xl:px-24 2xl:px-32;
+  }
+
+  .container-custom {
+    @apply mx-auto max-w-7xl;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg;
+  }
+}
