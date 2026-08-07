@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { MapPin, Phone, Mail } from "lucide-react";
 
 const quickLinks = [
@@ -38,6 +41,10 @@ const socialLinks = [
  * ```
  */
 export function Footer() {
+  const pathname = usePathname();
+
+  if (pathname.startsWith("/admin")) return null;
+
   return (
     <footer className="bg-primary text-white">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -54,6 +61,9 @@ export function Footer() {
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-gray-400">
               Building Tomorrow&apos;s Landmarks Today
+            </p>
+            <p className="mt-4 text-sm leading-relaxed text-gray-400">
+              We craft world-class structures that stand as testaments to innovation, quality, and the vision of our clients.
             </p>
             <div className="mt-6 flex gap-4">
               {socialLinks.map((social) => (
@@ -148,17 +158,17 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 sm:flex-row sm:px-6 lg:px-8">
           <p className="text-sm text-gray-500">
-            &copy; 2024 Hedgar Construction. All rights reserved.
+            &copy; 2026 Design By Muhammad Syihab. All rights reserved.
           </p>
           <div className="flex gap-6">
             <Link
-              href="/privacy-policy"
+              href="/"
               className="text-sm text-gray-500 transition-colors hover:text-gray-300"
             >
               Privacy Policy
             </Link>
             <Link
-              href="/terms-of-service"
+              href="/"
               className="text-sm text-gray-500 transition-colors hover:text-gray-300"
             >
               Terms of Service

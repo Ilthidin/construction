@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+﻿# Hedgar Construction — Next.js Showcase Site
+
+A construction company showcase website built with Next.js (App Router), React 19, TypeScript, and Tailwind CSS v4. Includes a password-protected admin panel for managing site content backed by a Supabase (Postgres) database.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Admin Panel Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The `/admin` panel lets you add, edit, and delete records for Projects, Services, Awards, Blog Posts, and Team Members. Public pages read live data from the API and fall back to the bundled static data in `src/data/*` if the database is unreachable.
 
-## Learn More
+### 1. Create a Supabase project
 
-To learn more about Next.js, take a look at the following resources:
+1. Go to https://supabase.com/dashboard and create a new project.
+2. Open **SQL Editor** and run the schema in `supabase/migrations/0001_init.sql` (creates the tables and read-only Row Level Security policies).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. Configure environment variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Copy `.env.example` to `.env.local` and fill in:
 
-## Deploy on Vercel
+```env
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+ADMIN_PASSWORD=your-secret-admin-password
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `SUPABASE_URL` / `SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY` — Project Settings → API.
+- `ADMIN_PASSWORD` — the password used to log into `/admin`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3. Seed the database (optional but recommended)
+
+Loads the existing static content into Supabase:
+
+```bash
+npm run seed
+```
+
+The seed is idempotent (upserts by id).
+
+### 4. Deploy to Vercel
+
+Add the same four variables under **Project → Settings → Environment Variables** before deploying.
+
+## Usage
+
+- Public: `/projects`, `/services`, `/awards`, `/about`, `/blog` render live content.
+- Admin: visit `/admin`, log in, and manage each content section from the sidebar.
+
+## Scripts
+
+- `npm run dev` — start the dev server
+- `npm run build` — production build
+- `npm run start` — serve the production build
+- `npm run lint` — run ESLint
+- `npm run seed` — seed Supabase from the static data files

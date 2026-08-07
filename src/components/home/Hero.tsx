@@ -33,7 +33,7 @@ export function Hero() {
           className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-sm"
         >
           <Award className="h-4 w-4 text-accent" />
-          <span>Trusted Since 2003</span>
+          <span>Trusted Since 2002</span>
         </motion.div>
 
         <motion.h1

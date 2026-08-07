@@ -1,7 +1,8 @@
 "use client";
 
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
-import { awards } from "@/data/awards";
+import { useCollection } from "@/hooks/useCollection";
+import { awards as fallbackAwards, type Award } from "@/data/awards";
 
 /**
  * AwardTimeline component displays awards in a vertical timeline layout.
@@ -17,6 +18,8 @@ import { awards } from "@/data/awards";
  * @returns A timeline section displaying all awards
  */
 export function AwardTimeline() {
+  const { data: awards } = useCollection<Award>("awards", fallbackAwards);
+
   return (
     <div className="relative">
       {/* Vertical line - center on desktop, left on mobile */}

@@ -5,7 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import { ProjectFilter } from "@/components/projects/ProjectFilter";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { projects, type Category } from "@/data/projects";
+import { useCollection } from "@/hooks/useCollection";
+import { projects as fallbackProjects, type Category, type Project } from "@/data/projects";
 
 /**
  * The Projects page displays a hero banner followed by a filterable grid
@@ -16,6 +17,7 @@ import { projects, type Category } from "@/data/projects";
  */
 export default function ProjectsPage() {
   const [activeFilter, setActiveFilter] = useState<Category>("All");
+  const { data: projects, loading } = useCollection<Project>("projects", fallbackProjects);
 
   const filteredProjects =
     activeFilter === "All"
@@ -62,20 +64,26 @@ export default function ProjectsPage() {
           layout
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-              >
-                <ProjectCard project={project} index={index} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
+          {loading ? (
+            <p className="col-span-full py-12 text-center text-muted">
+              Loading projects…
+            </p>
+          ) : (
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ProjectCard project={project} index={index} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          )}
         </motion.div>
       </section>
     </>

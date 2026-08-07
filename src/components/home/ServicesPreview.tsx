@@ -5,7 +5,8 @@ import { Building2, Home, Landmark, Hammer } from "lucide-react";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Button } from "@/components/ui/Button";
-import { services } from "@/data/services";
+import { useCollection } from "@/hooks/useCollection";
+import { services as fallbackServices, type Service } from "@/data/services";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Building2,
@@ -22,6 +23,8 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
  * @returns {JSX.Element} The services preview section component
  */
 export function ServicesPreview() {
+  const { data: services } = useCollection<Service>("services", fallbackServices);
+
   return (
     <section className="bg-surface py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

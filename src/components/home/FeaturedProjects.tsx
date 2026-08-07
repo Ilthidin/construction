@@ -5,7 +5,8 @@ import Link from "next/link";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Button } from "@/components/ui/Button";
-import { projects } from "@/data/projects";
+import { useCollection } from "@/hooks/useCollection";
+import { projects as fallbackProjects, type Project } from "@/data/projects";
 
 /**
  * Featured projects section for the home page.
@@ -15,6 +16,7 @@ import { projects } from "@/data/projects";
  * @returns {JSX.Element} The featured projects section component
  */
 export function FeaturedProjects() {
+  const { data: projects } = useCollection<Project>("projects", fallbackProjects);
   const featuredProjects = projects.filter((project) => project.featured);
 
   return (

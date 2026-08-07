@@ -6,7 +6,8 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Button } from "@/components/ui/Button";
 import { ServiceCard } from "@/components/services/ServiceCard";
 import { ServiceDetail } from "@/components/services/ServiceDetail";
-import { services } from "@/data/services";
+import { useCollection } from "@/hooks/useCollection";
+import { services as fallbackServices, type Service } from "@/data/services";
 
 /**
  * Services page for the construction showcase website.
@@ -16,6 +17,8 @@ import { services } from "@/data/services";
  * @returns {JSX.Element} The services page component
  */
 export default function ServicesPage() {
+  const { data: services } = useCollection<Service>("services", fallbackServices);
+
   return (
     <>
       {/* Hero section */}

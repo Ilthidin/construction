@@ -11,9 +11,9 @@ import { AnimatedSection } from "@/components/ui/AnimatedSection";
  */
 export function Stats() {
   const stats = [
-    { number: "350+", label: "Projects Completed" },
-    { number: "850+", label: "Team Members" },
-    { number: "28", label: "States Covered" },
+    { number: "150+", label: "Projects Completed" },
+    { number: "250+", label: "Team Members" },
+    { number: "24", label: "States Covered" },
     { number: "20+", label: "Years Experience" },
   ];
 

@@ -6,7 +6,8 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Button } from "@/components/ui/Button";
 import { AwardCard } from "@/components/awards/AwardCard";
 import { AwardTimeline } from "@/components/awards/AwardTimeline";
-import { awards } from "@/data/awards";
+import { useCollection } from "@/hooks/useCollection";
+import { awards as fallbackAwards, type Award } from "@/data/awards";
 
 /**
  * Awards page component for the construction showcase website.
@@ -20,6 +21,8 @@ import { awards } from "@/data/awards";
  * @returns The complete Awards page with hero, grid, timeline, and CTA sections
  */
 export default function AwardsPage() {
+  const { data: awards } = useCollection<Award>("awards", fallbackAwards);
+
   return (
     <main>
       {/* Hero Section */}

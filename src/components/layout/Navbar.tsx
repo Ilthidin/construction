@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
@@ -11,7 +12,7 @@ const navLinks = [
   { href: "/services", label: "Services" },
   { href: "/awards", label: "Awards" },
   { href: "/about", label: "About" },
-  { href: "/blog", label: "Blog" },
+  // { href: "/blog", label: "Blog" },
 ];
 
 /**
@@ -30,6 +31,7 @@ const navLinks = [
  * ```
  */
 export function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -49,6 +51,8 @@ export function Navbar() {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
+
+  if (pathname.startsWith("/admin")) return null;
 
   return (
     <header

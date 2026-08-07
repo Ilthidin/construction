@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import { BlogCard } from "@/components/blog/BlogCard";
-import { blogPosts } from "@/data/blog";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { useCollection } from "@/hooks/useCollection";
+import { blogPosts as fallbackBlogPosts, type BlogPost } from "@/data/blog";
 
 /**
  * Blog Page
@@ -16,6 +17,8 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
  * <BlogPage />
  */
 export default function BlogPage() {
+  const { data: blogPosts } = useCollection<BlogPost>("blog", fallbackBlogPosts);
+
   return (
     <main>
       {/* Hero Section */}
