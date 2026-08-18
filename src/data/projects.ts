@@ -11,6 +11,7 @@ export interface Project {
   year: string;
   description: string;
   image: string;
+  images: string[];
   area: string;
   duration: string;
   featured: boolean;
@@ -36,6 +37,12 @@ export const projects: Project[] = [
     description:
       "A 45-story mixed-use development featuring cutting-edge sustainable design and smart building technology throughout.",
     image: "/assets/images/project-1.jpg",
+    images: [
+      "/assets/images/project-1.jpg",
+      "/assets/images/service-1.jpg",
+      "/assets/images/team-1.jpg",
+      "/assets/images/blog-1.jpg",
+    ],
     area: "320,000 sq ft",
     duration: "28 months",
     featured: true,
@@ -49,6 +56,12 @@ export const projects: Project[] = [
     description:
       "Complete structural renovation and seismic upgrade of a historic harbor bridge, preserving heritage while ensuring modern safety standards.",
     image: "/assets/images/project-2.jpg",
+    images: [
+      "/assets/images/project-2.jpg",
+      "/assets/images/service-2.jpg",
+      "/assets/images/team-2.jpg",
+      "/assets/images/blog-2.jpg",
+    ],
     area: "1,200 linear ft",
     duration: "18 months",
     featured: true,
@@ -62,6 +75,12 @@ export const projects: Project[] = [
     description:
       "A luxury residential community of 120 eco-friendly homes with solar integration and community amenities.",
     image: "/assets/images/project-3.jpg",
+    images: [
+      "/assets/images/project-3.jpg",
+      "/assets/images/service-3.jpg",
+      "/assets/images/team-3.jpg",
+      "/assets/images/blog-3.jpg",
+    ],
     area: "45 acres",
     duration: "24 months",
     featured: true,
@@ -75,6 +94,11 @@ export const projects: Project[] = [
     description:
       "State-of-the-art convention center with 500,000 sq ft of exhibition space, advanced acoustics, and LEED Platinum certification.",
     image: "/assets/images/project-4.jpg",
+    images: [
+      "/assets/images/project-4.jpg",
+      "/assets/images/service-4.jpg",
+      "/assets/images/team-4.jpg",
+    ],
     area: "500,000 sq ft",
     duration: "36 months",
     featured: false,
@@ -88,6 +112,11 @@ export const projects: Project[] = [
     description:
       "Modern waterfront apartment complex with 200 units, rooftop gardens, and ground-floor retail spaces.",
     image: "/assets/images/project-5.jpg",
+    images: [
+      "/assets/images/project-5.jpg",
+      "/assets/images/service-1.jpg",
+      "/assets/images/team-2.jpg",
+    ],
     area: "180,000 sq ft",
     duration: "20 months",
     featured: false,
@@ -101,6 +130,12 @@ export const projects: Project[] = [
     description:
       "Meticulous restoration of a 19th-century heritage building, converting it into a modern cultural center while preserving original architectural details.",
     image: "/assets/images/project-6.jpg",
+    images: [
+      "/assets/images/project-6.jpg",
+      "/assets/images/service-3.jpg",
+      "/assets/images/team-1.jpg",
+      "/assets/images/blog-2.jpg",
+    ],
     area: "85,000 sq ft",
     duration: "14 months",
     featured: true,

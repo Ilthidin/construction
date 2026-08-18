@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Button } from "@/components/ui/Button";
+import { ProjectModal } from "@/components/projects/ProjectModal";
 import { useCollection } from "@/hooks/useCollection";
 import { projects as fallbackProjects, type Project } from "@/data/projects";
 
@@ -16,6 +17,7 @@ import { projects as fallbackProjects, type Project } from "@/data/projects";
  * @returns {JSX.Element} The featured projects section component
  */
 export function FeaturedProjects() {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const { data: projects } = useCollection<Project>("projects", fallbackProjects);
   const featuredProjects = projects.filter((project) => project.featured);
 
@@ -33,7 +35,10 @@ export function FeaturedProjects() {
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {featuredProjects.slice(0, 3).map((project, index) => (
             <AnimatedSection key={project.id} delay={index * 0.1} direction="up">
-              <Link href={`/projects/${project.id}`} className="group block h-full">
+              <div
+                onClick={() => setSelectedProject(project)}
+                className="group block h-full cursor-pointer"
+              >
                 <div className="group h-full overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                   <div className="relative h-64 overflow-hidden">
                     <Image
@@ -56,7 +61,7 @@ export function FeaturedProjects() {
                     </p>
                   </div>
                 </div>
-              </Link>
+              </div>
             </AnimatedSection>
           ))}
         </div>
@@ -67,6 +72,12 @@ export function FeaturedProjects() {
           </Button>
         </AnimatedSection>
       </div>
+
+      {/* Project Modal */}
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </section>
   );
 }

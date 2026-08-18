@@ -11,17 +11,23 @@ import type { Project } from "@/data/projects";
  *
  * @param project - The project data to render inside the card.
  * @param index   - Position index used to stagger the entrance animation.
+ * @param onSelect - Callback when the card is clicked to open the modal.
  */
 export function ProjectCard({
   project,
   index,
+  onSelect,
 }: {
   project: Project;
   index: number;
+  onSelect?: (project: Project) => void;
 }) {
   return (
     <AnimatedSection direction="up" delay={index * 0.1}>
-      <div className="group/card rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-shadow duration-300">
+      <div
+        onClick={() => onSelect?.(project)}
+        className="group/card rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-1"
+      >
         {/* Image section */}
         <div className="relative h-64 overflow-hidden">
           <Image

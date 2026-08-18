@@ -27,7 +27,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="relative flex h-[50vh] items-center justify-center overflow-hidden">
         <Image
-          src="/assets/images/about-hero.jpg"
+          src="/assets/images/hero-bg.jpg"
           alt="Hedgar Construction team at work"
           fill
           className="object-cover"

@@ -3,7 +3,10 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ProjectCard } from "@/components/projects/ProjectCard";
+import { ProjectModal } from "@/components/projects/ProjectModal";
 import { ProjectFilter } from "@/components/projects/ProjectFilter";
+import { ProjectBenefits } from "@/components/projects/ProjectBenefits";
+import { ProjectCTA } from "@/components/projects/ProjectCTA";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { useCollection } from "@/hooks/useCollection";
 import { projects as fallbackProjects, type Category, type Project } from "@/data/projects";
@@ -17,6 +20,7 @@ import { projects as fallbackProjects, type Category, type Project } from "@/dat
  */
 export default function ProjectsPage() {
   const [activeFilter, setActiveFilter] = useState<Category>("All");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const { data: projects, loading } = useCollection<Project>("projects", fallbackProjects);
 
   const filteredProjects =
@@ -45,6 +49,9 @@ export default function ProjectsPage() {
           </p>
         </div>
       </section>
+
+      {/* ── Benefits Section ───────────────────────────────────── */}
+      <ProjectBenefits />
 
       {/* ── Projects Section ────────────────────────────────────── */}
       <section className="py-20 px-4 max-w-7xl mx-auto">
@@ -79,13 +86,26 @@ export default function ProjectsPage() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <ProjectCard project={project} index={index} />
+                  <ProjectCard
+                    project={project}
+                    index={index}
+                    onSelect={setSelectedProject}
+                  />
                 </motion.div>
               ))}
             </AnimatePresence>
           )}
         </motion.div>
       </section>
+
+      {/* ── CTA Section ─────────────────────────────────────────── */}
+      <ProjectCTA />
+
+      {/* Project Modal */}
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </>
   );
 }
