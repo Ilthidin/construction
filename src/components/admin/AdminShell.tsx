@@ -17,7 +17,6 @@ import {
   LogOut,
   Menu,
   Newspaper,
-  Users,
   Wrench,
   X,
 } from "lucide-react";
@@ -30,7 +29,6 @@ const navItems = [
   { href: "/admin/services", label: "Services", icon: Wrench },
   { href: "/admin/awards", label: "Awards", icon: Award },
   { href: "/admin/blog", label: "Blog", icon: Newspaper },
-  { href: "/admin/team", label: "Team", icon: Users },
 ];
 
 export function AdminShell({ children }: { children: React.ReactNode }) {

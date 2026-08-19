@@ -19,7 +19,7 @@ export function ProjectFilter({
 }) {
   return (
     <AnimatedSection>
-      <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2">
+      <div className="flex gap-3 overflow-x-auto scrollbar-hide pt-4">
         {categories.map((category) => {
           const isActive = category === activeFilter;
 

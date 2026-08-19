@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useCallback } from "react";
 import { MapPin, Phone, Mail } from "lucide-react";
 
 const quickLinks = [
@@ -13,10 +14,10 @@ const quickLinks = [
 ];
 
 const services = [
-  { href: "/services#commercial", label: "Commercial" },
-  { href: "/services#residential", label: "Residential" },
-  { href: "/services#infrastructure", label: "Infrastructure" },
-  { href: "/services#renovation", label: "Renovation" },
+  { id: "commercial", label: "Commercial" },
+  { id: "residential", label: "Residential" },
+  { id: "infrastructure", label: "Infrastructure" },
+  { id: "renovation", label: "Renovation" },
 ];
 
 const socialLinks = [
@@ -42,6 +43,26 @@ const socialLinks = [
  */
 export function Footer() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const scrollToService = useCallback(
+    (id: string) => {
+      const scroll = () => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      };
+
+      window.scrollTo({ top: 0 });
+
+      if (pathname === "/services") {
+        setTimeout(scroll, 1000);
+      } else {
+        router.push("/services");
+        setTimeout(scroll, 1000);
+      }
+    },
+    [pathname, router],
+  );
 
   if (pathname.startsWith("/admin")) return null;
 
@@ -107,13 +128,13 @@ export function Footer() {
             </h3>
             <ul className="mt-4 space-y-3">
               {services.map((service) => (
-                <li key={service.href}>
-                  <Link
-                    href={service.href}
+                <li key={service.id}>
+                  <button
+                    onClick={() => scrollToService(service.id)}
                     className="text-sm text-gray-400 transition-colors hover:text-accent"
                   >
                     {service.label}
-                  </Link>
+                  </button>
                 </li>
               ))}
             </ul>

@@ -10,6 +10,7 @@ export interface Award {
   year: string;
   description: string;
   category: string;
+  image: string;
 }
 
 export const awards: Award[] = [
@@ -21,6 +22,7 @@ export const awards: Award[] = [
     description:
       "Awarded for Skyline Tower's exceptional sustainability features including net-zero energy design and rainwater harvesting systems.",
     category: "Sustainability",
+    image: "/assets/images/project-1.jpg",
   },
   {
     id: "best-general-contractor",
@@ -30,6 +32,7 @@ export const awards: Award[] = [
     description:
       "Recognized for outstanding project management, safety record, and client satisfaction across multiple large-scale projects.",
     category: "Excellence",
+    image: "/assets/images/project-2.jpg",
   },
   {
     id: "innovation-award",
@@ -39,6 +42,7 @@ export const awards: Award[] = [
     description:
       "Honored for pioneering the use of 3D printing technology and AI-driven project management in commercial construction.",
     category: "Innovation",
+    image: "/assets/images/project-3.jpg",
   },
   {
     id: "heritage-preservation",
@@ -48,6 +52,7 @@ export const awards: Award[] = [
     description:
       "Awarded for the meticulous restoration of Heritage Hall, blending modern functionality with 19th-century architectural integrity.",
     category: "Restoration",
+    image: "/assets/images/project-4.jpg",
   },
   {
     id: "safety-excellence",
@@ -57,6 +62,7 @@ export const awards: Award[] = [
     description:
       "Zero-incident record maintained across 15 active construction sites with over 2,000 workers for three consecutive years.",
     category: "Safety",
+    image: "/assets/images/project-5.jpg",
   },
   {
     id: "community-impact",
@@ -66,5 +72,6 @@ export const awards: Award[] = [
     description:
       "Recognized for affordable housing initiatives and community development programs in underserved neighborhoods.",
     category: "Community",
+    image: "/assets/images/project-6.jpg",
   },
 ];

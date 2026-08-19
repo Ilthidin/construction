@@ -5,14 +5,13 @@
  * @module lib/entities
  */
 
-export type ResourceName = "projects" | "services" | "awards" | "blog" | "team";
+export type ResourceName = "projects" | "services" | "awards" | "blog";
 
 export const resourceNames: ResourceName[] = [
   "projects",
   "services",
   "awards",
   "blog",
-  "team",
 ];
 
 export function isResourceName(value: string): value is ResourceName {
@@ -147,6 +146,7 @@ export const entityConfigs: Record<ResourceName, EntityConfig> = {
           year: str(input.year),
           description: str(input.description),
           category: str(input.category),
+          image: str(input.image),
         },
       };
     },
@@ -180,30 +180,6 @@ export const entityConfigs: Record<ResourceName, EntityConfig> = {
     fromDb: (row) => {
       const { read_time, ...rest } = row;
       return { ...rest, readTime: str(read_time) };
-    },
-  },
-
-  team: {
-    table: "team_members",
-    singular: "Team Member",
-    plural: "Team Members",
-    validate: (input) => {
-      const errors: string[] = [];
-      const name = str(input.name).trim();
-      const id = str(input.id).trim() || slugify(name);
-      if (!name) errors.push("Name is required");
-      if (!id) errors.push("Slug is required");
-      if (errors.length > 0) return { ok: false, errors };
-      return {
-        ok: true,
-        data: {
-          id,
-          name,
-          role: str(input.role),
-          image: str(input.image),
-          bio: str(input.bio),
-        },
-      };
     },
   },
 };

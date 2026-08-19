@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { companyStats } from "@/data/team";
 
 /**
  * Statistics section for the home page.
@@ -11,9 +12,9 @@ import { AnimatedSection } from "@/components/ui/AnimatedSection";
  */
 export function Stats() {
   const stats = [
-    { number: "150+", label: "Projects Completed" },
-    { number: "250+", label: "Team Members" },
-    { number: "24", label: "States Covered" },
+    { number: `${companyStats.projectsCompleted}+`, label: "Projects Completed" },
+    { number: `${companyStats.employees}+`, label: "Team Members" },
+    { number: `${companyStats.statesServed}`, label: "States Covered" },
     { number: "20+", label: "Years Experience" },
   ];
 

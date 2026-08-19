@@ -29,7 +29,7 @@ export default function AwardsPage() {
       <section className="relative flex h-[40vh] min-h-[300px] items-center justify-center">
         {/* Background Image */}
         <Image
-          src="/images/award-bg.jpg"
+          src="/images/awar-hero.jpg"
           alt="Awards background"
           fill
           className="object-cover"
@@ -81,17 +81,17 @@ export default function AwardsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-primary py-20">
+      <section className="bg-surface py-20">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <AnimatedSection>
-            <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
+            <h2 className="mb-4 text-3xl font-bold md:text-4xl">
               Ready to work with an award-winning team?
             </h2>
-            <p className="mb-8 text-lg text-white/80">
+            <p className="mb-8 text-lg text-muted">
               Let&apos;s bring your vision to life with the quality and expertise
               that has earned us industry recognition.
             </p>
-            <Button href="/contact" variant="secondary">
+            <Button href="/contact" variant="primary">
               Get in Touch
             </Button>
           </AnimatedSection>

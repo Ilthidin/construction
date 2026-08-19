@@ -24,7 +24,7 @@ export default function ServicesPage() {
       {/* Hero section */}
       <section className="relative flex h-[40vh] min-h-[300px] items-center justify-center overflow-hidden">
         <Image
-          src="/assets/images/service-1.jpg"
+          src="/assets/images/service-4.jpg"
           alt="Our services"
           fill
           className="object-cover"
@@ -57,7 +57,9 @@ export default function ServicesPage() {
 
           <div className="mt-16 space-y-12">
             {services.map((service, index) => (
-              <ServiceCard key={service.id} service={service} index={index} />
+              <div key={service.id} id={service.id} className="scroll-mt-24">
+                <ServiceCard service={service} index={index} />
+              </div>
             ))}
           </div>
         </div>

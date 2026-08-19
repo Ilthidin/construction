@@ -22,6 +22,8 @@ export function ContactForm() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -34,9 +36,29 @@ export function ContactForm() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to send message.");
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -109,7 +131,7 @@ export function ContactForm() {
             value={formData.phone}
             onChange={handleChange}
             className="w-full bg-surface border border-border rounded-lg px-4 py-3 focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition"
-            placeholder="+1 (555) 000-0000"
+            placeholder="+6289xxxxxxxxx"
           />
         </div>
         <div>
@@ -158,12 +180,20 @@ export function ContactForm() {
         />
       </div>
 
+      {/* Error */}
+      {error && (
+        <div className="mb-6 rounded-lg bg-red-50 p-4 text-sm text-red-600">
+          {error}
+        </div>
+      )}
+
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full bg-accent text-white rounded-lg px-6 py-4 font-semibold hover:bg-accent-dark transition-colors duration-300"
+        disabled={loading}
+        className="w-full rounded-lg bg-accent px-6 py-4 font-semibold text-white transition-colors duration-300 hover:bg-accent-dark disabled:cursor-not-allowed disabled:opacity-50"
       >
-        Send Message
+        {loading ? "Sending…" : "Send Message"}
       </button>
     </form>
   );

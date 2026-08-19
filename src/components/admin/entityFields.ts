@@ -77,6 +77,7 @@ export const awardFields: FormFieldDef[] = [
   { name: "organization", label: "Organization", full: true },
   { name: "year", label: "Year", placeholder: "e.g. 2024" },
   { name: "category", label: "Category" },
+  { name: "image", label: "Image URL", full: true },
   {
     name: "description",
     label: "Description",
@@ -100,23 +101,6 @@ export const blogFields: FormFieldDef[] = [
   {
     name: "excerpt",
     label: "Excerpt",
-    type: "textarea",
-    full: true,
-  },
-];
-
-export const teamFields: FormFieldDef[] = [
-  { name: "name", label: "Name", required: true, full: true },
-  {
-    name: "id",
-    label: "Slug",
-    help: "URL identifier. Leave blank to auto-generate from the name.",
-  },
-  { name: "role", label: "Role", full: true },
-  { name: "image", label: "Image URL", full: true },
-  {
-    name: "bio",
-    label: "Bio",
     type: "textarea",
     full: true,
   },

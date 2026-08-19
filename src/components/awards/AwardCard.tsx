@@ -1,24 +1,11 @@
 "use client";
 
-import { Trophy } from "lucide-react";
+import { useState } from "react";
+import Image from "next/image";
+import { Trophy, X } from "lucide-react";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import type { Award } from "@/data/awards";
 
-/**
- * AwardCard component displays a single award in a styled card format.
- *
- * Features:
- * - Category pill tag and year badge at the top
- * - Trophy icon in a circular accent background
- * - Award title, organization, and description
- * - Subtle accent border at the bottom
- * - Hover effect with shadow and slight upward translation
- * - Staggered animation using AnimatedSection
- *
- * @param award - The award data to display
- * @param index - The index used for staggered animation delay calculation
- * @returns A styled award card component
- */
 export function AwardCard({
   award,
   index,
@@ -26,38 +13,84 @@ export function AwardCard({
   award: Award;
   index: number;
 }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <AnimatedSection delay={index * 0.1}>
-      <div className="group relative h-full rounded-xl bg-white p-8 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
-        {/* Top: Category tag + Year badge */}
-        <div className="mb-6 flex items-center justify-between">
-          <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold uppercase text-accent">
-            {award.category}
-          </span>
-          <span className="text-sm font-medium text-muted/60">
-            {award.year}
-          </span>
+    <>
+      <AnimatedSection delay={index * 0.1}>
+        <div
+          className="group relative h-full cursor-pointer rounded-xl bg-white p-8 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+          onClick={() => setOpen(true)}
+        >
+          {/* Image */}
+          <div className="relative mb-6 h-48 overflow-hidden rounded-lg">
+            <Image
+              src={award.image}
+              alt={award.title}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
+
+          {/* Top: Category tag + Year badge */}
+          <div className="mb-4 flex items-center justify-between">
+            <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold uppercase text-accent">
+              {award.category}
+            </span>
+            <span className="text-sm font-medium text-muted/60">
+              {award.year}
+            </span>
+          </div>
+
+          {/* Title */}
+          <h3 className="text-xl font-bold text-primary">{award.title}</h3>
+
+          {/* Organization */}
+          <p className="mb-3 text-sm text-muted">{award.organization}</p>
+
+          {/* Description */}
+          <p className="text-sm leading-relaxed text-muted/80">
+            {award.description}
+          </p>
+
+          {/* Bottom accent border */}
+          <div className="absolute bottom-0 left-0 right-0 h-0.5 rounded-b-xl bg-accent/20 transition-colors duration-300 group-hover:bg-accent/40" />
         </div>
+      </AnimatedSection>
 
-        {/* Center: Trophy icon */}
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent/10">
-          <Trophy className="h-8 w-8 text-accent" />
+      {/* Full image popup */}
+      {open && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          onClick={() => setOpen(false)}
+        >
+          <button
+            type="button"
+            className="absolute right-4 top-4 text-white/80 transition-colors hover:text-white"
+            onClick={() => setOpen(false)}
+          >
+            <X className="h-8 w-8" />
+          </button>
+          <div
+            className="relative max-h-[85vh] max-w-4xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={award.image}
+              alt={award.title}
+              width={1200}
+              height={800}
+              className="rounded-lg object-contain"
+            />
+            <div className="mt-4 text-center">
+              <h3 className="text-lg font-bold text-white">{award.title}</h3>
+              <p className="text-sm text-white/60">
+                {award.organization} &middot; {award.year}
+              </p>
+            </div>
+          </div>
         </div>
-
-        {/* Title */}
-        <h3 className="mt-4 text-xl font-bold text-primary">{award.title}</h3>
-
-        {/* Organization */}
-        <p className="mb-3 text-sm text-muted">{award.organization}</p>
-
-        {/* Description */}
-        <p className="text-sm leading-relaxed text-muted/80">
-          {award.description}
-        </p>
-
-        {/* Bottom accent border */}
-        <div className="absolute bottom-0 left-0 right-0 h-0.5 rounded-b-xl bg-accent/20 transition-colors duration-300 group-hover:bg-accent/40" />
-      </div>
-    </AnimatedSection>
+      )}
+    </>
   );
 }

@@ -12,7 +12,6 @@ import {
   Award,
   FolderKanban,
   Newspaper,
-  Users,
   Wrench,
 } from "lucide-react";
 import { useCollection } from "@/hooks/useCollection";
@@ -22,7 +21,6 @@ import { projects as projectsFallback } from "@/data/projects";
 import { services as servicesFallback } from "@/data/services";
 import { awards as awardsFallback } from "@/data/awards";
 import { blogPosts as blogPostsFallback } from "@/data/blog";
-import { teamMembers as teamMembersFallback } from "@/data/team";
 
 const sections: {
   resource: ResourceName;
@@ -62,14 +60,6 @@ const sections: {
     description: "Articles for the blog section.",
     icon: Newspaper,
     fallback: blogPostsFallback,
-  },
-  {
-    resource: "team",
-    href: "/admin/team",
-    label: "Team Members",
-    description: "Team shown on the About page.",
-    icon: Users,
-    fallback: teamMembersFallback,
   },
 ];
 

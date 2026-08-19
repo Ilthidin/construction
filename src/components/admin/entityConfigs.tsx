@@ -8,18 +8,15 @@ import type { Project } from "@/data/projects";
 import type { Service } from "@/data/services";
 import type { Award } from "@/data/awards";
 import type { BlogPost } from "@/data/blog";
-import type { TeamMember } from "@/data/team";
 import { projects as projectsFallback } from "@/data/projects";
 import { services as servicesFallback } from "@/data/services";
 import { awards as awardsFallback } from "@/data/awards";
 import { blogPosts as blogPostsFallback } from "@/data/blog";
-import { teamMembers as teamMembersFallback } from "@/data/team";
 import {
   projectFields,
   serviceFields,
   awardFields,
   blogFields,
-  teamFields,
 } from "@/components/admin/entityFields";
 import type { EntityManagerConfig } from "@/components/admin/EntityManager";
 
@@ -99,20 +96,5 @@ export const blogConfig: EntityManagerConfig<BlogPost> = {
     { key: "author", label: "Author" },
     { key: "date", label: "Date" },
     { key: "category", label: "Category" },
-  ],
-};
-
-export const teamConfig: EntityManagerConfig<TeamMember> = {
-  resource: "team",
-  singular: "Team Member",
-  plural: "Team Members",
-  description: "Team members shown on the About page.",
-  fields: teamFields,
-  editHrefPrefix: "/admin/team",
-  fallback: teamMembersFallback,
-  deleteLabel: (row) => row.name,
-  columns: [
-    { key: "name", label: "Name" },
-    { key: "role", label: "Role" },
   ],
 };
