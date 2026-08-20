@@ -8,7 +8,7 @@
 export interface FormFieldDef {
   name: string;
   label: string;
-  type?: "text" | "textarea" | "checkbox" | "tags" | "select";
+  type?: "text" | "textarea" | "checkbox" | "tags" | "select" | "image";
   required?: boolean;
   placeholder?: string;
   options?: string[];
@@ -28,7 +28,7 @@ export const projectFields: FormFieldDef[] = [
   { name: "location", label: "Location", full: true },
   { name: "area", label: "Area", placeholder: "e.g. 320,000 sq ft" },
   { name: "duration", label: "Duration", placeholder: "e.g. 28 months" },
-  { name: "image", label: "Image URL", full: true },
+  { name: "image", label: "Image", type: "image", full: true },
   {
     name: "featured",
     label: "Featured",
@@ -51,7 +51,7 @@ export const serviceFields: FormFieldDef[] = [
     help: "URL identifier. Leave blank to auto-generate from the title.",
   },
   { name: "icon", label: "Icon", help: "Lucide icon name, e.g. Building2, Home, Landmark, Hammer." },
-  { name: "image", label: "Image URL", full: true },
+  { name: "image", label: "Image", type: "image", full: true },
   {
     name: "features",
     label: "Features",
@@ -77,7 +77,7 @@ export const awardFields: FormFieldDef[] = [
   { name: "organization", label: "Organization", full: true },
   { name: "year", label: "Year", placeholder: "e.g. 2024" },
   { name: "category", label: "Category" },
-  { name: "image", label: "Image URL", full: true },
+  { name: "image", label: "Image", type: "image", full: true },
   {
     name: "description",
     label: "Description",
@@ -97,7 +97,7 @@ export const blogFields: FormFieldDef[] = [
   { name: "date", label: "Date", placeholder: "e.g. March 15, 2024" },
   { name: "category", label: "Category" },
   { name: "readTime", label: "Read Time", placeholder: "e.g. 5 min read" },
-  { name: "image", label: "Image URL", full: true },
+  { name: "image", label: "Image", type: "image", full: true },
   {
     name: "excerpt",
     label: "Excerpt",

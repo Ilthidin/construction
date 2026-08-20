@@ -60,4 +60,21 @@ export const api = {
     }),
   logout: () =>
     request<{ ok: true }>("/api/auth/logout", { method: "POST" }),
+  upload: async (resource: string, file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("resource", resource);
+    const res = await fetch("/api/upload", { method: "POST", body: formData });
+    if (!res.ok) {
+      let message = `Upload failed (${res.status})`;
+      try {
+        const data = await res.json();
+        if (data && typeof data.error === "string") message = data.error;
+      } catch {
+        // ignore
+      }
+      throw new Error(message);
+    }
+    return res.json() as Promise<{ url: string }>;
+  },
 };

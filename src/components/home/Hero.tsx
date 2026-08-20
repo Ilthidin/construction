@@ -1,13 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { Award, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 
 /**
  * Hero section component for the home page.
- * Displays a full-screen hero with background image, overlay,
+ * Displays a full-screen hero with background video, overlay,
  * animated content, and call-to-action buttons.
  *
  * @returns {JSX.Element} The hero section component
@@ -15,12 +14,13 @@ import { Button } from "@/components/ui/Button";
 export function Hero() {
   return (
     <section className="relative h-screen w-full overflow-hidden">
-      <Image
-        src="/assets/images/hero-bg.jpg"
-        alt="Construction background"
-        fill
-        className="object-cover"
-        priority
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 h-full w-full object-cover"
+        src="/assets/videos/hero.webm"
       />
 
       <div className="absolute inset-0 bg-black/60" />

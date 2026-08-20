@@ -7,8 +7,10 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { api } from "@/lib/api";
 import type { FormFieldDef } from "@/components/admin/entityFields";
 
 interface EntityFormProps {
@@ -84,6 +86,14 @@ function FieldInput({
           ))}
         </select>
       );
+    case "image":
+      return (
+        <ImageUpload
+          value={typeof value === "string" ? value : ""}
+          onChange={onChange}
+          resource={field.name}
+        />
+      );
     default:
       return (
         <input
@@ -97,6 +107,142 @@ function FieldInput({
         />
       );
   }
+}
+
+const WARN_SIZE = 2 * 1024 * 1024; // 2 MB soft warning
+
+function ImageUpload({
+  value,
+  onChange,
+  resource,
+}: {
+  value: string;
+  onChange: (value: unknown) => void;
+  resource: string;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [dragOver, setDragOver] = useState(false);
+
+  async function handleFile(file: File) {
+    setError(null);
+
+    if (file.size > WARN_SIZE) {
+      const mb = (file.size / 1024 / 1024).toFixed(1);
+      setError(`Warning: ${mb} MB is large. Consider compressing before upload.`);
+    }
+
+    setUploading(true);
+    try {
+      const { url } = await api.upload(resource, file);
+      onChange(url);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload failed.");
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  function onSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) handleFile(file);
+    e.target.value = "";
+  }
+
+  function onDrop(e: React.DragEvent) {
+    e.preventDefault();
+    setDragOver(false);
+    const file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
+  }
+
+  return (
+    <div className="space-y-3">
+      {value && (
+        <div className="relative overflow-hidden rounded-lg border border-border">
+          <Image
+            src={value}
+            alt="Preview"
+            width={800}
+            height={400}
+            className="h-48 w-full object-cover"
+          />
+          <button
+            type="button"
+            onClick={() => {
+              onChange("");
+              setError(null);
+            }}
+            className="absolute right-2 top-2 rounded-md bg-black/60 px-2 py-1 text-xs text-white transition-colors hover:bg-black/80"
+          >
+            Remove
+          </button>
+        </div>
+      )}
+
+      <div
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragOver(true);
+        }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={onDrop}
+        onClick={() => inputRef.current?.click()}
+        className={cn(
+          "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed p-6 transition-colors",
+          dragOver
+            ? "border-accent bg-accent/5"
+            : "border-border hover:border-accent/50 hover:bg-surface"
+        )}
+      >
+        {uploading ? (
+          <p className="text-sm text-muted">Uploading…</p>
+        ) : (
+          <>
+            <p className="text-sm text-muted">
+              Click or drag to upload an image
+            </p>
+            <p className="text-xs text-muted/60">
+              JPG, PNG, WebP, GIF — max 5 MB
+            </p>
+          </>
+        )}
+      </div>
+
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/gif"
+        onChange={onSelect}
+        className="hidden"
+      />
+
+      {error && (
+        <p
+          className={cn(
+            "text-xs",
+            error.startsWith("Warning")
+              ? "text-yellow-600"
+              : "text-red-600"
+          )}
+        >
+          {error}
+        </p>
+      )}
+
+      {!value && !uploading && (
+        <input
+          type="text"
+          placeholder="Or paste an image URL…"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className={inputClasses}
+        />
+      )}
+    </div>
+  );
 }
 
 export function EntityForm({

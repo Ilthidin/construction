@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Trophy, X } from "lucide-react";
-import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { motion } from "framer-motion";
+import { X } from "lucide-react";
 import type { Award } from "@/data/awards";
 
 export function AwardCard({
@@ -17,13 +17,18 @@ export function AwardCard({
 
   return (
     <>
-      <AnimatedSection delay={index * 0.1}>
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
+      >
         <div
-          className="group relative h-full cursor-pointer rounded-xl bg-white p-8 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+          className="group relative h-full cursor-pointer rounded-xl bg-white pt-0 px-0 pb-8 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
           onClick={() => setOpen(true)}
         >
           {/* Image */}
-          <div className="relative mb-6 h-48 overflow-hidden rounded-lg">
+          <div className="relative h-48 overflow-hidden rounded-t-xl">
             <Image
               src={award.image}
               alt={award.title}
@@ -33,7 +38,7 @@ export function AwardCard({
           </div>
 
           {/* Top: Category tag + Year badge */}
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex items-center justify-between px-8 pt-6">
             <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold uppercase text-accent">
               {award.category}
             </span>
@@ -43,20 +48,20 @@ export function AwardCard({
           </div>
 
           {/* Title */}
-          <h3 className="text-xl font-bold text-primary">{award.title}</h3>
+          <h3 className="px-8 text-xl font-bold text-primary">{award.title}</h3>
 
           {/* Organization */}
-          <p className="mb-3 text-sm text-muted">{award.organization}</p>
+          <p className="mb-3 px-8 text-sm text-muted">{award.organization}</p>
 
           {/* Description */}
-          <p className="text-sm leading-relaxed text-muted/80">
+          <p className="px-8 text-sm leading-relaxed text-muted/80">
             {award.description}
           </p>
 
           {/* Bottom accent border */}
           <div className="absolute bottom-0 left-0 right-0 h-0.5 rounded-b-xl bg-accent/20 transition-colors duration-300 group-hover:bg-accent/40" />
         </div>
-      </AnimatedSection>
+      </motion.div>
 
       {/* Full image popup */}
       {open && (

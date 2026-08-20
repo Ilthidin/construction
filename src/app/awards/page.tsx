@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Button } from "@/components/ui/Button";
 import { AwardCard } from "@/components/awards/AwardCard";
@@ -26,10 +26,10 @@ export default function AwardsPage() {
   return (
     <main>
       {/* Hero Section */}
-      <section className="relative flex h-[40vh] min-h-[300px] items-center justify-center">
+      <section className="relative flex h-[40vh] min-h-screen items-center justify-center">
         {/* Background Image */}
         <Image
-          src="/images/awar-hero.jpg"
+          src="/assets/images/award-hero.jpg"
           alt="Awards background"
           fill
           className="object-cover"
@@ -41,23 +41,43 @@ export default function AwardsPage() {
 
         {/* Content */}
         <div className="relative z-10 text-center">
-          <AnimatedSection>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl">
               Awards & Recognition
             </h1>
-          </AnimatedSection>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
+          >
+            <p className="pt-4 text-sm font-medium text-white/80 md:text-lg lg:text-2xl">
+              Our Collection of Achievements
+            </p>
+          </motion.div>
         </div>
       </section>
 
       {/* Grid Section */}
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <AnimatedSection>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <SectionHeader
               subtitle="Recognition"
               title="Our Achievements"
             />
-          </AnimatedSection>
+          </motion.div>
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {awards.map((award, index) => (
@@ -70,9 +90,14 @@ export default function AwardsPage() {
       {/* Timeline Section */}
       <section className="bg-white py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <AnimatedSection>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <SectionHeader subtitle="Milestones" title="Our Journey" />
-          </AnimatedSection>
+          </motion.div>
 
           <div className="mt-12">
             <AwardTimeline />
@@ -83,7 +108,12 @@ export default function AwardsPage() {
       {/* CTA Section */}
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-          <AnimatedSection>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <h2 className="mb-4 text-3xl font-bold md:text-4xl">
               Ready to work with an award-winning team?
             </h2>
@@ -94,7 +124,7 @@ export default function AwardsPage() {
             <Button href="/contact" variant="primary">
               Get in Touch
             </Button>
-          </AnimatedSection>
+          </motion.div>
         </div>
       </section>
     </main>

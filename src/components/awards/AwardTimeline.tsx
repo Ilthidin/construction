@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { motion } from "framer-motion";
 import { useCollection } from "@/hooks/useCollection";
 import { awards as fallbackAwards, type Award } from "@/data/awards";
 
@@ -12,7 +12,7 @@ import { awards as fallbackAwards, type Award } from "@/data/awards";
  * - Timeline dots with accent color and white border
  * - Alternating left/right layout on desktop (md+)
  * - Single column with line on left for mobile
- * - Each item wrapped in AnimatedSection for scroll-triggered animation
+ * - Each item wrapped in motion.div for scroll-triggered animation
  * - Responsive design with Tailwind CSS
  *
  * @returns A timeline section displaying all awards
@@ -30,7 +30,13 @@ export function AwardTimeline() {
           const isLeft = index % 2 === 0;
 
           return (
-            <AnimatedSection key={award.id} delay={index * 0.1}>
+            <motion.div
+              key={award.id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
+            >
               <div
                 className={`relative flex items-start pl-12 md:pl-0 ${
                   isLeft
@@ -71,7 +77,7 @@ export function AwardTimeline() {
                   </p>
                 </div>
               </div>
-            </AnimatedSection>
+            </motion.div>
           );
         })}
       </div>
