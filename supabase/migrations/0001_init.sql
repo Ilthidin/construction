@@ -10,6 +10,7 @@ create table if not exists public.projects (
   year text not null default '',
   description text not null default '',
   image text not null default '',
+  images jsonb not null default '[]'::jsonb,
   area text not null default '',
   duration text not null default '',
   featured boolean not null default false,
@@ -35,6 +36,7 @@ create table if not exists public.awards (
   year text not null default '',
   description text not null default '',
   category text not null default '',
+  image text not null default '',
   created_at timestamptz not null default now()
 );
 

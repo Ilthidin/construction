@@ -18,12 +18,14 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   body {
     font-family: var(--font-sans);
     color: #1a1a1a;
     background: #ffffff;
+    overflow-x: clip;
   }
 
   ::selection {

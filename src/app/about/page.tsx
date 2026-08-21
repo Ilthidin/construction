@@ -35,9 +35,9 @@ export default function AboutPage() {
         />
         <div className="absolute inset-0 bg-primary/70" />
 
-        <div className="relative z-10 text-center">
+        <div className="relative z-10 px-4 text-center">
           <AnimatedSection>
-            <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl">
+            <h1 className="text-3xl font-bold break-words text-white sm:text-4xl md:text-5xl lg:text-6xl">
               About Hedgar Construction
             </h1>
             <p className="mt-4 text-lg text-gray-300">

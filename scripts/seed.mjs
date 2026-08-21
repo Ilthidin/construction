@@ -2,8 +2,8 @@
  * Seeds the Supabase database from the bundled static data files.
  * Run with: npm run seed
  *
- * Requires SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in .env.local (see
- * .env.example). Idempotent: existing rows are overwritten by id.
+ * Requires SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in .env (see README).
+ * Idempotent: existing rows are overwritten by id.
  */
 
 import { existsSync, readFileSync } from "node:fs";
@@ -46,7 +46,7 @@ const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!url || !key) {
   console.error(
-    "Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY. Copy .env.example to .env.local and fill in the values."
+    "Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY. Fill them in in .env and try again."
   );
   process.exit(1);
 }

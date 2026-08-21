@@ -22,7 +22,7 @@ The `/admin` panel lets you add, edit, and delete records for Projects, Services
 
 ### 2. Configure environment variables
 
-Copy `.env.example` to `.env.local` and fill in:
+Fill in the following in `.env`:
 
 ```env
 SUPABASE_URL=
