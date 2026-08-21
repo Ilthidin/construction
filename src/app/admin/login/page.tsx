@@ -8,7 +8,8 @@
 
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Lock } from "lucide-react";
+import Link from "next/link";
+import { ArrowLeft, Lock } from "lucide-react";
 import { api } from "@/lib/api";
 
 function LoginForm() {
@@ -34,7 +35,15 @@ function LoginForm() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
+    <div className="relative flex min-h-screen items-center justify-center p-4">
+      <Link
+        href="/"
+        className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-lg border border-border bg-white px-3 py-2 text-sm font-medium text-muted shadow-sm transition-colors hover:border-accent hover:text-accent"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        Back to main page
+      </Link>
+
       <div className="w-full max-w-md rounded-2xl border border-border bg-white p-8 shadow-lg">
         <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10">
           <Lock className="h-6 w-6 text-accent" />

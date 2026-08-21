@@ -11,6 +11,7 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
+  ArrowLeft,
   Award,
   FolderKanban,
   LayoutDashboard,
@@ -81,6 +82,13 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
         <div className="border-t border-white/10 p-3">
+          <Link
+            href="/"
+            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to site
+          </Link>
           <button
             type="button"
             onClick={handleLogout}
@@ -124,6 +132,14 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               </Link>
             );
           })}
+          <Link
+            href="/"
+            onClick={() => setMobileOpen(false)}
+            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to site
+          </Link>
           <button
             type="button"
             onClick={handleLogout}
