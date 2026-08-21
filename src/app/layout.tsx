@@ -13,6 +13,7 @@ import { Footer } from "@/components/layout/Footer";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -49,6 +50,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} scroll-smooth`}>
       <body className="min-h-screen bg-white text-primary antialiased">
+        {/* React 19 hoists this <link> into <head>; warms up the hero LCP image. */}
+        <link
+          rel="preload"
+          href="/assets/images/hero-poster.webp"
+          as="image"
+          type="image/webp"
+        />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

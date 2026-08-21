@@ -1,12 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import { Award, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 
 /**
  * Hero section component for the home page.
- * Displays a full-screen hero with background video, overlay,
+ * Displays a full-screen hero with a static image on mobile (LCP-friendly,
+ * no video decoding) and a background video on desktop, plus overlay,
  * animated content, and call-to-action buttons.
  *
  * @returns {JSX.Element} The hero section component
@@ -14,12 +16,27 @@ import { Button } from "@/components/ui/Button";
 export function Hero() {
   return (
     <section className="relative h-screen w-full overflow-hidden">
+      {/* Mobile: lightweight static image instead of video */}
+      <div className="absolute inset-0 md:hidden">
+        <Image
+          src="/assets/images/hero-poster.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+      </div>
+
+      {/* Desktop: background video */}
       <video
         autoPlay
         loop
         muted
         playsInline
-        className="absolute inset-0 h-full w-full object-cover"
+        poster="/assets/images/hero-poster.webp"
+        preload="metadata"
+        className="absolute inset-0 hidden h-full w-full object-cover md:block"
         src="/assets/videos/hero.webm"
       />
 
