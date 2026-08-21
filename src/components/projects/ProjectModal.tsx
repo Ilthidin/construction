@@ -97,6 +97,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
                       fill
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, 600px"
+                      quality={60}
                       priority
                     />
                   </motion.div>

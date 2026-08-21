@@ -30,6 +30,8 @@ export default function AboutPage() {
           src="/assets/images/hero-bg.jpg"
           alt="Hedgar Construction team at work"
           fill
+          sizes="100vw"
+          quality={60}
           className="object-cover"
           priority
         />
@@ -86,6 +88,8 @@ export default function AboutPage() {
                   src="/assets/images/about-hero.jpg"
                   alt="Hedgar Construction history"
                   fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  quality={60}
                   className="object-cover"
                 />
               </div>

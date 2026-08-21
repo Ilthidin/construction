@@ -33,13 +33,15 @@ export function AwardCard({
               src={award.image}
               alt={award.title}
               fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              quality={60}
               className="object-cover transition-transform duration-300 group-hover:scale-105"
             />
           </div>
 
           {/* Top: Category tag + Year badge */}
           <div className="mb-4 flex items-center justify-between px-8 pt-6">
-            <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold uppercase text-accent">
+            <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold uppercase text-accent-dark">
               {award.category}
             </span>
             <span className="text-sm font-medium text-muted/60">
@@ -85,6 +87,8 @@ export function AwardCard({
               alt={award.title}
               width={1200}
               height={800}
+              sizes="(max-width: 1024px) 100vw, 896px"
+              quality={60}
               className="rounded-lg object-contain"
             />
             <div className="mt-4 text-center">

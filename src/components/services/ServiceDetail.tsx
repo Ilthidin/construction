@@ -69,6 +69,8 @@ export function ServiceDetail({
           src={service.image}
           alt={service.title}
           fill
+          sizes="100vw"
+          quality={60}
           className="object-cover"
         />
         <div className="absolute inset-0 bg-primary/80" />

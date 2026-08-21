@@ -2,6 +2,14 @@
   "name": "construction",
   "version": "0.1.0",
   "private": true,
+  "browserslist": [
+    "chrome >= 97",
+    "firefox >= 95",
+    "safari >= 15.4",
+    "edge >= 97",
+    "and_chr >= 97",
+    "ios_saf >= 15.4"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",

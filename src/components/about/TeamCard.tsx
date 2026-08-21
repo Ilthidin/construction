@@ -40,6 +40,8 @@ export function TeamCard({ member, index }: TeamCardProps) {
             src={member.image}
             alt={member.name}
             fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            quality={60}
             className="object-cover transition-transform duration-500 hover:scale-105"
           />
         </div>
@@ -47,7 +49,7 @@ export function TeamCard({ member, index }: TeamCardProps) {
         {/* Content */}
         <div className="p-6">
           <h3 className="text-xl font-bold text-primary">{member.name}</h3>
-          <p className="mt-1 text-sm font-medium uppercase tracking-wider text-accent">
+          <p className="mt-1 text-sm font-medium uppercase tracking-wider text-accent-dark">
             {member.role}
           </p>
           <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-gray-500">

@@ -27,9 +27,11 @@ export default function BlogPage() {
           src="/images/blog-1.jpg"
           alt="Blog"
           fill
+          sizes="100vw"
+          quality={60}
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-black/70" />
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             News &amp; Insights

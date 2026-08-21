@@ -29,10 +29,10 @@ type ButtonAsLink = ButtonBaseProps &
 export type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 const variantStyles: Record<string, string> = {
-  primary: "bg-accent text-white hover:bg-accent-dark",
+  primary: "bg-accent text-primary hover:bg-accent-light",
   secondary: "bg-primary text-white hover:bg-primary-light",
-  outline: "border-2 border-accent text-accent hover:bg-accent hover:text-white",
-  ghost: "text-primary hover:text-accent",
+  outline: "border-2 border-accent-dark text-accent-dark hover:bg-accent-dark hover:text-white",
+  ghost: "text-primary hover:text-accent-dark",
 };
 
 const sizeStyles: Record<string, string> = {

@@ -53,7 +53,7 @@ export function AwardTimeline() {
                 <div className="w-full rounded-xl bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
                   {/* Top row: Category + Year */}
                   <div className="mb-3 flex items-center justify-between">
-                    <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold uppercase text-accent">
+                    <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold uppercase text-accent-dark">
                       {award.category}
                     </span>
                     <span className="text-sm font-medium text-muted/60">

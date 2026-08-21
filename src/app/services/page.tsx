@@ -27,10 +27,12 @@ export default function ServicesPage() {
           src="/assets/images/service-4.jpg"
           alt="Our services"
           fill
+          sizes="100vw"
+          quality={60}
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-black/70" />
         <div className="relative z-10 px-4 text-center">
           <AnimatedSection direction="up">
             <h1 className="text-3xl font-bold break-words text-white sm:text-4xl md:text-5xl lg:text-6xl">

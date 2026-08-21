@@ -35,6 +35,8 @@ export function BlogCard({
             src={post.image}
             alt={post.title}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            quality={60}
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
@@ -43,7 +45,7 @@ export function BlogCard({
         <div className="p-6">
           {/* Top Row: Category + Read Time */}
           <div className="flex items-center justify-between mb-3">
-            <span className="bg-accent/10 text-accent text-xs font-semibold px-3 py-1 rounded-full">
+            <span className="bg-accent/10 text-accent-dark text-xs font-semibold px-3 py-1 rounded-full">
               {post.category}
             </span>
             <span className="text-xs text-muted">{post.readTime}</span>

@@ -57,6 +57,8 @@ export function ServiceCard({ service, index }: ServiceCardProps) {
             src={service.image}
             alt={service.title}
             fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            quality={60}
             className={`object-cover min-h-[300px] ${
               isEven
                 ? "rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none"

@@ -5,7 +5,7 @@
   --color-primary-light: #1a1a1a;
   --color-accent: #C8963E;
   --color-accent-light: #d4a94f;
-  --color-accent-dark: #a67a2e;
+  --color-accent-dark: #8f6b26;
   --color-surface: #F8F6F3;
   --color-surface-dark: #EDE9E3;
   --color-muted: #6B7280;
@@ -35,6 +35,20 @@
 }
 
 @layer components {
+  @keyframes bounce-soft {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(8px);
+    }
+  }
+
+  .animate-bounce-soft {
+    animation: bounce-soft 1.5s ease-in-out infinite;
+  }
+
   .section-padding {
     @apply px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24;
   }

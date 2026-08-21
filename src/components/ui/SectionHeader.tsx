@@ -49,7 +49,7 @@ export function SectionHeader({
         {subtitle && (
           <span
             className={
-              "mb-2 block text-sm uppercase tracking-widest text-accent"
+              "mb-2 block text-sm uppercase tracking-widest text-accent-dark"
             }
           >
             {subtitle}

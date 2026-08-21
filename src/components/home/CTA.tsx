@@ -18,6 +18,8 @@ export function CTA() {
         src="/assets/images/cta-bg.jpg"
         alt="Construction background"
         fill
+        sizes="100vw"
+        quality={60}
         className="object-cover"
       />
       <div className="absolute inset-0 bg-black/70" />

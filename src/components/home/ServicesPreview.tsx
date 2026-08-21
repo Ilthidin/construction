@@ -48,6 +48,8 @@ export function ServicesPreview() {
                       src={service.image}
                       alt={service.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      quality={60}
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>

@@ -32,6 +32,8 @@ export default function AwardsPage() {
           src="/assets/images/award-hero.jpg"
           alt="Awards background"
           fill
+          sizes="100vw"
+          quality={60}
           className="object-cover"
           priority
         />
