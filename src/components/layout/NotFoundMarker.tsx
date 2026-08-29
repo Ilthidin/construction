@@ -11,6 +11,7 @@ export function NotFoundMarker() {
   const setNotFound = useSetNotFound();
   useEffect(() => {
     setNotFound(true);
+    return () => setNotFound(false);
   }, [setNotFound]);
   return null;
 }

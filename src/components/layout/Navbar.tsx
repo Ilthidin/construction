@@ -37,9 +37,10 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // On the 404 page the background is light, so the navbar must use its
-  // "dark/white" styling (rendered as if scrolled) for the text to be readable.
-  const dark = scrolled || isNotFound;
+  // The admin login page (/login/{key}) has a light background, so the navbar
+  // must use its dark/white styling (black text) to be readable there too.
+  const isLogin = pathname.startsWith("/login");
+  const dark = scrolled || isNotFound || isLogin;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
