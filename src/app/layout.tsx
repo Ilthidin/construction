@@ -9,6 +9,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { FlagsProvider } from "@/contexts/Flags";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -55,9 +56,11 @@ export default function RootLayout({
           as="image"
           type="image/webp"
         />
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <FlagsProvider>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </FlagsProvider>
       </body>
     </html>
   );

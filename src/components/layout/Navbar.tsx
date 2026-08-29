@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { useIsNotFound } from "@/contexts/Flags";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -32,8 +33,13 @@ const navLinks = [
  */
 export function Navbar() {
   const pathname = usePathname();
+  const isNotFound = useIsNotFound();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // On the 404 page the background is light, so the navbar must use its
+  // "dark/white" styling (rendered as if scrolled) for the text to be readable.
+  const dark = scrolled || isNotFound;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -57,7 +63,7 @@ export function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-white shadow-md" : "bg-transparent"
+        dark ? "bg-white shadow-md" : "bg-transparent"
       }`}
     >
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -69,7 +75,7 @@ export function Navbar() {
               <rect x="4" y="24" width="52" height="12" rx="3" fill="#111111"/>
               <rect x="42" y="6" width="14" height="48" rx="3" fill="#DC2626"/>
             </svg>
-            <span className={`text-xl font-bold tracking-tight transition-colors ${scrolled ? "text-primary" : "text-white"}`}>Hedgar</span>
+            <span className={`text-xl font-bold tracking-tight transition-colors ${dark ? "text-primary" : "text-white"}`}>Hedgar</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -78,7 +84,7 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`group/link relative text-md font-medium transition-colors ${scrolled ? "text-primary" : "text-white"}`}
+                className={`group/link relative text-md font-medium transition-colors ${dark ? "text-primary" : "text-white"}`}
               >
                 {link.label}
                 <span className="absolute -bottom-1 left-0 h-0.5 w-full origin-left scale-x-0 bg-accent transition-transform duration-300 group-hover/link:scale-x-100" />
@@ -97,7 +103,7 @@ export function Navbar() {
 
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className={`inline-flex items-center justify-center rounded-md p-2 transition-colors md:hidden ${scrolled ? "text-primary hover:bg-primary/5" : "text-white hover:bg-white/10"}`}
+              className={`inline-flex items-center justify-center rounded-md p-2 transition-colors md:hidden ${dark ? "text-primary hover:bg-primary/5" : "text-white hover:bg-white/10"}`}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

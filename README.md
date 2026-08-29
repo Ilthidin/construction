@@ -18,7 +18,7 @@ The `/admin` panel lets you add, edit, and delete records for Projects, Services
 ### 1. Create a Supabase project
 
 1. Go to https://supabase.com/dashboard and create a new project.
-2. Open **SQL Editor** and run the schema in `supabase/migrations/0001_init.sql` (creates the tables and read-only Row Level Security policies).
+2. Open **SQL Editor** and run the schema in `supabase/migrations/` (creates the tables, read-only Row Level Security policies, and the blog publish-status column).
 
 ### 2. Configure environment variables
 
@@ -29,10 +29,12 @@ SUPABASE_URL=
 SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 ADMIN_PASSWORD=your-secret-admin-password
+ADMIN_LOGIN_KEY=some-long-random-secret
 ```
 
 - `SUPABASE_URL` / `SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY` — Project Settings → API.
-- `ADMIN_PASSWORD` — the password used to log into `/admin`.
+- `ADMIN_PASSWORD` — the password used to log into the admin panel.
+- `ADMIN_LOGIN_KEY` — a long, random, unguessable secret. The admin login page lives at `/login/{ADMIN_LOGIN_KEY}`; `/admin/*` returns **404** to anyone without a valid session, so the panel's existence is hidden.
 
 ### 3. Seed the database (optional but recommended)
 
@@ -46,12 +48,12 @@ The seed is idempotent (upserts by id).
 
 ### 4. Deploy to Vercel
 
-Add the same four variables under **Project → Settings → Environment Variables** before deploying.
+Add the same variables (including `ADMIN_LOGIN_KEY`) under **Project → Settings → Environment Variables** before deploying.
 
 ## Usage
 
 - Public: `/projects`, `/services`, `/awards`, `/about`, `/blog` render live content.
-- Admin: visit `/admin`, log in, and manage each content section from the sidebar.
+- Admin: go to `/login/{ADMIN_LOGIN_KEY}`, enter the admin password, then manage each content section from the sidebar. Accessing `/admin` without a session returns **404** (the panel is hidden).
 
 ## Scripts
 

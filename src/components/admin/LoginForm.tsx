@@ -1,20 +1,19 @@
-﻿/**
- * Admin login page. Verifies the admin password against /api/auth/login and
- * redirects to the dashboard (or the originally requested page) on success.
- * @module app/admin/login
+/**
+ * Shared admin login form. Verifies the admin password against
+ * /api/auth/login and redirects to the dashboard on success.
+ * @module components/admin/LoginForm
  */
 
 "use client";
 
-import { Suspense, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Lock } from "lucide-react";
 import { api } from "@/lib/api";
 
-function LoginForm() {
+export function LoginForm() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -25,8 +24,7 @@ function LoginForm() {
     setError(null);
     try {
       await api.login(password);
-      const next = searchParams.get("next");
-      router.push(next && next.startsWith("/admin") ? next : "/admin");
+      router.push("/admin");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed.");
@@ -85,19 +83,5 @@ function LoginForm() {
         </form>
       </div>
     </div>
-  );
-}
-
-export default function AdminLoginPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-sm text-muted">
-          Loading…
-        </div>
-      }
-    >
-      <LoginForm />
-    </Suspense>
   );
 }
