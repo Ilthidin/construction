@@ -159,6 +159,8 @@ export const entityConfigs: Record<ResourceName, EntityConfig> = {
     validate: (input) => {
       const { id, title, errors } = commonValidation(input);
       if (errors.length > 0) return { ok: false, errors };
+      const rawStatus = str(input.status).trim();
+      const status = rawStatus === "draft" ? "draft" : "published";
       return {
         ok: true,
         data: {
@@ -170,6 +172,7 @@ export const entityConfigs: Record<ResourceName, EntityConfig> = {
           date: str(input.date),
           category: str(input.category),
           readTime: str(input.readTime),
+          status,
         },
       };
     },

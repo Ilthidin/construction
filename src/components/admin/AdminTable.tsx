@@ -10,6 +10,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
+import { Toast } from "@/components/admin/Toast";
 
 export interface TableColumn<T extends { id: string }> {
   key: string;
@@ -44,12 +45,16 @@ export function AdminTable<T extends { id: string }>({
 }: AdminTableProps<T>) {
   const [pendingDelete, setPendingDelete] = useState<T | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [deletedLabel, setDeletedLabel] = useState<string | null>(null);
 
   async function handleConfirmDelete() {
     if (!pendingDelete) return;
     setDeleting(true);
     try {
       await onDelete(pendingDelete);
+      setDeletedLabel(
+        deleteLabel ? deleteLabel(pendingDelete) : pendingDelete.id
+      );
     } finally {
       setDeleting(false);
       setPendingDelete(null);
@@ -157,6 +162,14 @@ export function AdminTable<T extends { id: string }>({
         onConfirm={handleConfirmDelete}
         onCancel={() => setPendingDelete(null)}
       />
+
+      {deletedLabel && (
+        <Toast
+          kind="success"
+          message={`"${deletedLabel}" deleted.`}
+          onDismiss={() => setDeletedLabel(null)}
+        />
+      )}
     </section>
   );
 }

@@ -23,7 +23,7 @@ export default function ContactPage() {
       {/* Hero Section */}
       <section className="relative h-[40vh] min-h-[300px] flex items-center justify-center">
         <Image
-          src="/images/hero-bg.jpg"
+          src="/assets/images/project-1.jpg"
           alt="Contact Us"
           fill
           sizes="100vw"
@@ -32,10 +32,16 @@ export default function ContactPage() {
         />
         <div className="absolute inset-0 bg-black/70" />
         <div className="relative z-10 text-center text-white px-4">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <h1
+            className="animate-fade-in-auto text-4xl md:text-5xl font-bold mb-4"
+            style={{ animationDelay: "0.2s" }}
+          >
             Get In Touch
           </h1>
-          <p className="text-lg md:text-xl max-w-2xl mx-auto opacity-90">
+          <p
+            className="animate-fade-in-auto text-lg md:text-xl max-w-2xl mx-auto opacity-90"
+            style={{ animationDelay: "0.4s" }}
+          >
             Have a project in mind? Let&apos;s discuss how we can bring your
             vision to life.
           </p>

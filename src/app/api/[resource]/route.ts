@@ -20,10 +20,16 @@ export async function GET(_request: NextRequest, { params }: RouteContext) {
 
   const config = entityConfigs[resource];
   const supabase = createServerClient();
-  const { data, error } = await supabase
+  let query = supabase
     .from(config.table)
     .select("*")
     .order("created_at", { ascending: true });
+
+  if (resource === "blog" && !(await isAdmin())) {
+    query = query.eq("status", "published");
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

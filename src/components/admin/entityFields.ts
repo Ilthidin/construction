@@ -97,6 +97,13 @@ export const blogFields: FormFieldDef[] = [
   { name: "date", label: "Date", placeholder: "e.g. March 15, 2024" },
   { name: "category", label: "Category" },
   { name: "readTime", label: "Read Time", placeholder: "e.g. 5 min read" },
+  {
+    name: "status",
+    label: "Status",
+    type: "select",
+    help: "Draft posts are hidden from the public site until published.",
+    options: ["published", "draft"],
+  },
   { name: "image", label: "Image", type: "image", full: true },
   {
     name: "excerpt",

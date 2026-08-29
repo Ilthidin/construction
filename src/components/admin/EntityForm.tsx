@@ -9,6 +9,7 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
+import { Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { api } from "@/lib/api";
 import type { FormFieldDef } from "@/components/admin/entityFields";
@@ -19,6 +20,8 @@ interface EntityFormProps {
   submitLabel: string;
   onSave: (data: Record<string, unknown>) => Promise<void>;
   onCancel: () => void;
+  /** Optional live preview of the current (unsaved) form values. */
+  preview?: (values: Record<string, unknown>) => React.ReactNode;
 }
 
 const inputClasses =
@@ -109,7 +112,52 @@ function FieldInput({
   }
 }
 
-const WARN_SIZE = 2 * 1024 * 1024; // 2 MB soft warning
+const MAX_DIMENSION = 1600; // longest side in px
+const WEBP_QUALITY = 0.82;
+
+/**
+ * Compresses an image in the browser using the Canvas API. Resizes the longest
+ * side down to {@link MAX_DIMENSION} and re-encodes to WebP at
+ * {@link WEBP_QUALITY}. Animated GIFs are returned unchanged to preserve
+ * animation.
+ */
+async function compressImage(file: File): Promise<File> {
+  if (file.type === "image/gif") return file;
+
+  const isPng = file.type === "image/png";
+  const bitmap = await createImageBitmap(file);
+
+  const scale =
+    Math.max(bitmap.width, bitmap.height) > MAX_DIMENSION
+      ? MAX_DIMENSION / Math.max(bitmap.width, bitmap.height)
+      : 1;
+  const width = Math.round(bitmap.width * scale);
+  const height = Math.round(bitmap.height * scale);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    bitmap.close();
+    return file;
+  }
+
+  if (isPng) {
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, width, height);
+  }
+  ctx.drawImage(bitmap, 0, 0, width, height);
+  bitmap.close();
+
+  const blob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, "image/webp", WEBP_QUALITY)
+  );
+  if (!blob) return file;
+
+  const baseName = file.name.replace(/\.[^.]+$/, "") || "image";
+  return new File([blob], `${baseName}.webp`, { type: "image/webp" });
+}
 
 function ImageUpload({
   value,
@@ -121,21 +169,29 @@ function ImageUpload({
   resource: string;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [compressing, setCompressing] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
 
   async function handleFile(file: File) {
     setError(null);
-
-    if (file.size > WARN_SIZE) {
-      const mb = (file.size / 1024 / 1024).toFixed(1);
-      setError(`Warning: ${mb} MB is large. Consider compressing before upload.`);
+    setCompressing(true);
+    let compressed = file;
+    try {
+      compressed = await compressImage(file);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Image compression failed."
+      );
+      setCompressing(false);
+      return;
     }
+    setCompressing(false);
 
     setUploading(true);
     try {
-      const { url } = await api.upload(resource, file);
+      const { url } = await api.upload(resource, compressed);
       onChange(url);
       setError(null);
     } catch (err) {
@@ -197,7 +253,9 @@ function ImageUpload({
             : "border-border hover:border-accent/50 hover:bg-surface"
         )}
       >
-        {uploading ? (
+        {compressing ? (
+          <p className="text-sm text-muted">Compressing…</p>
+        ) : uploading ? (
           <p className="text-sm text-muted">Uploading…</p>
         ) : (
           <>
@@ -205,7 +263,7 @@ function ImageUpload({
               Click or drag to upload an image
             </p>
             <p className="text-xs text-muted/60">
-              JPG, PNG, WebP, GIF — max 5 MB
+              JPG, PNG, WebP, GIF — auto-compressed on upload
             </p>
           </>
         )}
@@ -251,6 +309,7 @@ export function EntityForm({
   submitLabel,
   onSave,
   onCancel,
+  preview,
 }: EntityFormProps) {
   const [values, setValues] = useState<Record<string, unknown>>(() => {
     const out: Record<string, unknown> = {};
@@ -266,15 +325,41 @@ export function EntityForm({
   });
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   function setValue(name: string, value: unknown) {
     setValues((prev) => ({ ...prev, [name]: value }));
+    setFieldErrors((prev) => {
+      if (!(name in prev)) return prev;
+      const next = { ...prev };
+      delete next[name];
+      return next;
+    });
   }
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    setSaving(true);
     setError(null);
+
+    const newErrors: Record<string, string> = {};
+    for (const field of fields) {
+      if (!field.required) continue;
+      const value = values[field.name];
+      const empty =
+        value === undefined ||
+        value === null ||
+        (typeof value === "string" && value.trim() === "");
+      if (empty) {
+        newErrors[field.name] = `${field.label} is required.`;
+      }
+    }
+    if (Object.keys(newErrors).length > 0) {
+      setFieldErrors(newErrors);
+      return;
+    }
+
+    setSaving(true);
     try {
       const payload: Record<string, unknown> = {};
       for (const field of fields) {
@@ -296,50 +381,80 @@ export function EntityForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-        {fields.map((field) => (
-          <div key={field.name} className={cn(field.full && "md:col-span-2")}>
-            <label
-              htmlFor={field.name}
-              className="mb-1.5 block text-sm font-medium text-primary"
-            >
-              {field.label}
-              {field.required && <span className="text-red-500"> *</span>}
-            </label>
-            <FieldInput
-              field={field}
-              value={values[field.name]}
-              onChange={(value) => setValue(field.name, value)}
-            />
-            {field.help && <p className="mt-1 text-xs text-muted">{field.help}</p>}
-          </div>
-        ))}
-      </div>
-
-      {error && (
-        <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
-        </p>
+    <div className="space-y-6">
+      {preview && (
+        <div className="rounded-lg border border-border bg-surface p-4">
+          <button
+            type="button"
+            onClick={() => setShowPreview((prev) => !prev)}
+            className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-surface"
+          >
+            <Eye className="h-4 w-4" />
+            {showPreview ? "Hide preview" : "Preview"}
+          </button>
+          {showPreview && (
+            <div className="mt-4">
+              <p className="mb-3 text-xs font-medium uppercase tracking-wide text-muted">
+                Preview (not yet saved)
+              </p>
+              <div className="mx-auto max-w-sm">{preview(values)}</div>
+            </div>
+          )}
+        </div>
       )}
 
-      <div className="flex items-center gap-3">
-        <button
-          type="submit"
-          disabled={saving}
-          className="inline-flex items-center justify-center rounded-lg bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-dark disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {saving ? "Saving…" : submitLabel}
-        </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          disabled={saving}
-          className="inline-flex items-center justify-center rounded-lg border-2 border-border px-6 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          {fields.map((field) => (
+            <div key={field.name} className={cn(field.full && "md:col-span-2")}>
+              <label
+                htmlFor={field.name}
+                className="mb-1.5 block text-sm font-medium text-primary"
+              >
+                {field.label}
+                {field.required && <span className="text-red-500"> *</span>}
+              </label>
+              <FieldInput
+                field={field}
+                value={values[field.name]}
+                onChange={(value) => setValue(field.name, value)}
+              />
+              {fieldErrors[field.name] && (
+                <p className="mt-1 text-xs text-red-600">
+                  {fieldErrors[field.name]}
+                </p>
+              )}
+              {!fieldErrors[field.name] && field.help && (
+                <p className="mt-1 text-xs text-muted">{field.help}</p>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {error && (
+          <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+            {error}
+          </p>
+        )}
+
+        <div className="flex items-center gap-3">
+          <button
+            type="submit"
+            disabled={saving}
+            className="inline-flex items-center justify-center rounded-lg bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-dark disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {saving ? "Saving…" : submitLabel}
+          </button>
+          <button
+            type="button"
+            onClick={onCancel}
+            disabled={saving}
+            className="inline-flex items-center justify-center rounded-lg border-2 border-border px-6 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

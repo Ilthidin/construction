@@ -49,6 +49,29 @@
     animation: bounce-soft 1.5s ease-in-out infinite;
   }
 
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-delayed {
+    opacity: 0;
+    animation: fade-in 1.5s ease-out 1s forwards;
+  }
+
+  .animate-fade-in-auto {
+    opacity: 0;
+    animation: fade-in 0.8s ease-out forwards;
+  }
+
   .section-padding {
     @apply px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24;
   }

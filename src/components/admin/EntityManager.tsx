@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { AdminTable, type TableColumn } from "@/components/admin/AdminTable";
 import { EntityForm } from "@/components/admin/EntityForm";
+import { Toast, type ToastKind } from "@/components/admin/Toast";
 import { useCollection } from "@/hooks/useCollection";
 import { api } from "@/lib/api";
 import type { FormFieldDef } from "@/components/admin/entityFields";
@@ -25,6 +26,11 @@ export interface EntityManagerConfig<T extends { id: string }> {
   fallback: T[];
   editHrefPrefix: string;
   deleteLabel?: (row: T) => string;
+  /**
+   * Optional renderer that shows a live preview of the current form values
+   * (before saving). Receives the draft values as a partial entity.
+   */
+  preview?: (values: Record<string, unknown>) => React.ReactNode;
 }
 
 export function EntityListPage<T extends { id: string }>({
@@ -62,6 +68,9 @@ export function EntityCreatePage<T extends { id: string }>({
   config: EntityManagerConfig<T>;
 }) {
   const router = useRouter();
+  const [toast, setToast] = useState<{ kind: ToastKind; message: string } | null>(
+    null
+  );
 
   return (
     <div>
@@ -73,14 +82,27 @@ export function EntityCreatePage<T extends { id: string }>({
       <div className="mt-8 max-w-3xl rounded-xl border border-border bg-white p-6 shadow-sm">
         <EntityForm
           fields={config.fields}
+          preview={config.preview}
           submitLabel={`Create ${config.singular}`}
           onSave={async (data) => {
             await api.create(config.resource, data);
+            setToast({
+              kind: "success",
+              message: `${config.singular} created successfully.`,
+            });
             router.push(config.editHrefPrefix);
           }}
           onCancel={() => router.push(config.editHrefPrefix)}
         />
       </div>
+
+      {toast && (
+        <Toast
+          kind={toast.kind}
+          message={toast.message}
+          onDismiss={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }
@@ -98,6 +120,9 @@ export function EntityEditPage<T extends { id: string }>({
     undefined
   );
   const [error, setError] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ kind: ToastKind; message: string } | null>(
+    null
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -141,14 +166,27 @@ export function EntityEditPage<T extends { id: string }>({
         <EntityForm
           fields={config.fields}
           initial={initial}
+          preview={config.preview}
           submitLabel="Save Changes"
           onSave={async (data) => {
             await api.update(config.resource, id, data);
+            setToast({
+              kind: "success",
+              message: `${config.singular} saved successfully.`,
+            });
             router.push(config.editHrefPrefix);
           }}
           onCancel={() => router.push(config.editHrefPrefix)}
         />
       </div>
+
+      {toast && (
+        <Toast
+          kind={toast.kind}
+          message={toast.message}
+          onDismiss={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }

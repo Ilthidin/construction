@@ -19,12 +19,28 @@ import {
   blogFields,
 } from "@/components/admin/entityFields";
 import type { EntityManagerConfig } from "@/components/admin/EntityManager";
+import { BlogCard } from "@/components/blog/BlogCard";
 
 function FeaturedBadge({ value }: { value: unknown }) {
   if (value !== true) return <span className="text-muted">No</span>;
   return (
     <span className="inline-flex rounded-full bg-accent/10 px-2.5 py-0.5 text-xs font-semibold text-accent-dark">
       Yes
+    </span>
+  );
+}
+
+function StatusBadge({ value }: { value: unknown }) {
+  const isPublished = value !== "draft" && value !== undefined && value !== "";
+  return (
+    <span
+      className={
+        isPublished
+          ? "inline-flex rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-700"
+          : "inline-flex rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-semibold text-yellow-700"
+      }
+    >
+      {isPublished ? "Published" : "Draft"}
     </span>
   );
 }
@@ -96,5 +112,27 @@ export const blogConfig: EntityManagerConfig<BlogPost> = {
     { key: "author", label: "Author" },
     { key: "date", label: "Date" },
     { key: "category", label: "Category" },
+    {
+      key: "status",
+      label: "Status",
+      render: (value) => <StatusBadge value={value} />,
+    },
   ],
+  preview: (values) => (
+    <BlogCard
+      post={
+        {
+          id: String(values.id ?? "") || "preview",
+          title: String(values.title ?? ""),
+          category: String(values.category ?? ""),
+          readTime: String(values.readTime ?? ""),
+          excerpt: String(values.excerpt ?? ""),
+          author: String(values.author ?? ""),
+          date: String(values.date ?? ""),
+          image: String(values.image ?? ""),
+        } as BlogPost
+      }
+      index={0}
+    />
+  ),
 };

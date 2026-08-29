@@ -31,7 +31,7 @@ export default function ProjectsPage() {
   return (
     <>
       {/* ── Hero Section ────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex items-center justify-center">
+      <section className="relative flex h-[40vh] min-h-[300px] items-center justify-center">
         <div className="absolute inset-0">
           <div
             className="absolute inset-0 bg-cover bg-center"

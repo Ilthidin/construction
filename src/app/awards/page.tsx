@@ -26,7 +26,7 @@ export default function AwardsPage() {
   return (
     <main>
       {/* Hero Section */}
-      <section className="relative flex h-[40vh] min-h-screen items-center justify-center">
+      <section className="relative flex h-[40vh] min-h-[300px] items-center justify-center">
         {/* Background Image */}
         <Image
           src="/assets/images/award-hero.jpg"
