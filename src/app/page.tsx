@@ -19,6 +19,12 @@ const ServicesPreview = dynamic(
   () => import("@/components/home/ServicesPreview").then((m) => m.ServicesPreview)
 );
 const CTA = dynamic(() => import("@/components/home/CTA").then((m) => m.CTA));
+const CustomerReviews = dynamic(
+  () => import("@/components/home/CustomerReviews").then((m) => m.CustomerReviews)
+);
+const FAQ = dynamic(
+  () => import("@/components/home/FAQ").then((m) => m.FAQ)
+);
 
 /**
  * The main landing page combining all home sections
@@ -31,6 +37,8 @@ export default function Home() {
       <FeaturedProjects />
       <Stats />
       <ServicesPreview />
+      <CustomerReviews />
+      <FAQ />
       <CTA />
     </>
   );
